@@ -72,3 +72,6 @@
 [submodule "FEX"]
 	path = FEX
 	url = https://github.com/FEX-Emu/FEX/
+[submodule "wine-staging"]
+	path = wine-staging
+	url = https://gitlab.winehq.org/wine/wine-staging.git
