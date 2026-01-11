@@ -648,6 +648,7 @@ $(OBJ)/.wine-post-source:
 		done; \
 	fi
 
+	cp $(VULKAN_HEADERS_SRC)/registry/vk.xml $(VULKAN_HEADERS_SRC)/registry/video.xml $(WINE_SRC)/dlls/winevulkan/
 	cd $(WINE_SRC) && XDG_CACHE_HOME=$(OBJ) dlls/winevulkan/make_vulkan -x vk.xml -X video.xml
 	-cd $(WINE_SRC) && tools/make_specfiles
 	touch $@
