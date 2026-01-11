@@ -690,7 +690,7 @@ $(OBJ)/.wine-i386-post-build:
 $(OBJ)/.wine-aarch64-post-build:
 	mkdir -p $(DST_DIR)/bin-arm64
 	$(call install-strip,$(WINE_aarch64_DST)/bin/wine,$(DST_DIR)/bin-arm64)
-	$(call install-strip,$(WINE_aarch64_DST)/bin/wine-preloader,$(DST_DIR)/bin-arm64)
+# 	$(call install-strip,$(WINE_aarch64_DST)/bin/wine-preloader,$(DST_DIR)/bin-arm64)
 	$(call install-strip,$(WINE_aarch64_DST)/bin/wineserver,$(DST_DIR)/bin-arm64)
 	cp -a $(WINE_aarch64_DST)/bin/msidb $(DST_DIR)/bin-arm64/
 ifeq ($(findstring x86_64,$(unix_ARCHS)),)
