@@ -1904,6 +1904,9 @@ class Session:
             append_to_env_str(self.env, "DXVK_CONFIG", f"dxvk.numCompilerThreads={threads}", ";")
             append_to_env_str(self.env, "DXVK_CONFIG", "dxvk.enableGraphicsPipelineLibrary=Auto", ";")
 
+        if "vkd3dbratan" in self.compat_config:
+            append_to_env_str(self.env, "VKD3D_CONFIG", "descriptor_heap", ";")
+
         if "nvidialibs" in self.compat_config:
             self.compat_config.add("nvcuda")
             self.compat_config.add("nvenc")
