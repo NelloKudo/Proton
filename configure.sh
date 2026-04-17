@@ -205,6 +205,9 @@ function configure() {
     if [[ -n "$arg_without_llasync" ]]; then
       echo "WITHOUT_LLASYNC := 1"
     fi
+    if [[ -n "$arg_without_bratan" ]]; then
+      echo "WITHOUT_BRATAN := 1"
+    fi
     if [[ -n "$arg_without_wayland_libs" ]]; then
       echo "WITHOUT_WAYLAND_LIBS := 1"
     fi
@@ -242,6 +245,7 @@ arg_without_nvidia_libs=""
 arg_without_sarek=""
 arg_without_d7vk=""
 arg_without_llasync=""
+arg_without_bratan=""
 arg_without_wayland_libs=""
 arg_without_libpcap=""
 arg_help=""
@@ -305,6 +309,8 @@ function parse_args() {
       arg_without_d7vk="1"
     elif [[ $arg = --without-llasync ]]; then
       arg_without_llasync="1"
+    elif [[ $arg = --without-bratan ]]; then
+      arg_without_bratan="1"
     elif [[ $arg = --without-wayland-libs ]]; then
       arg_without_wayland_libs="1"
     elif [[ $arg = --without-libpcap ]]; then
@@ -377,6 +383,8 @@ usage() {
   "$1" "    --without-d7vk Disables d7vk"
   "$1" ""
   "$1" "    --without-llasync Disables dxvk-llasync"
+  "$1" ""
+  "$1" "    --without-bratan Disables vkd3d-bratan"
   "$1" ""
   "$1" "    --without-wayland-libs Disables bundling wayland libraries. Wine is still built with Wayland support (for native builds)"
   "$1" ""
