@@ -1418,58 +1418,80 @@ $(OBJ)/.nvlibs-nvapi-post-source:
 default_pfx: nvlibs-nvapi
 
 ##
-## nvcuda
+## nvcuda32/nvcuda
 ##
 
-NVCUDA_i386_MESON_ARGS = \
-  --cross-file=$(NVCUDA_SRC)/build-wine32.txt \
+NVCUDA32_i386_MESON_ARGS = \
+  --cross-file=$(NVCUDA32_SRC)/build-wine32.txt \
   --libdir=lib/wine/nvidia-libs/nvcuda/i386-windows
 
 NVCUDA_x86_64_MESON_ARGS = \
   --cross-file=$(NVCUDA_SRC)/build-wine64.txt \
   --libdir=lib/wine/nvidia-libs/nvcuda/x86_64-windows
 
+NVCUDA32_DEPENDS = wine
+NVCUDA32_HOST_DEPENDS = wine
 NVCUDA_DEPENDS = wine
 NVCUDA_HOST_DEPENDS = wine
 
+$(eval $(call rules-source,nvcuda32,$(SRCDIR)/nvidia-libs/nvcuda32))
 $(eval $(call rules-source,nvcuda,$(SRCDIR)/nvidia-libs/nvcuda))
-$(eval $(call rules-nvidia-libs,nvcuda,i386,windows))
+$(eval $(call rules-nvidia-libs,nvcuda32,i386,windows))
 $(eval $(call rules-nvidia-libs,nvcuda,x86_64,windows))
 
-$(OBJ)/.nvcuda-post-source:
+$(OBJ)/.nvcuda32-post-source: $(OBJ)/.wine-wine-requests
+	$(foreach i,$(shell find $(NVCUDA32_SRC)/include/wine -type f | sort),cp $(WINE_SRC)/include/wine/$(notdir $(i)) $(i) &&) true
+	mkdir -p $(DST_LIBDIR)/wine/nvidia-libs/nvcuda
+	rm -rf $(DST_LIBDIR)/wine/nvidia-libs/nvcuda/version-i386
+	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvcuda32)" > $(DST_LIBDIR)/wine/nvidia-libs/nvcuda/version-i386
+	touch $@
+
+$(OBJ)/.nvcuda-post-source: $(OBJ)/.wine-wine-requests
+	$(foreach i,$(shell find $(NVCUDA_SRC)/include/wine -type f | sort),cp $(WINE_SRC)/include/wine/$(notdir $(i)) $(i) &&) true
 	mkdir -p $(DST_LIBDIR)/wine/nvidia-libs/nvcuda
 	rm -rf $(DST_LIBDIR)/wine/nvidia-libs/nvcuda/version
 	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvcuda)" > $(DST_LIBDIR)/wine/nvidia-libs/nvcuda/version
 	touch $@
 
-default_pfx: nvcuda
+default_pfx: nvcuda32 nvcuda
 
 ##
-## nvenc
+## nvenc32/nvenc
 ##
 
-NVENC_i386_MESON_ARGS = \
-  --cross-file=$(NVENC_SRC)/build-wine32.txt \
+NVENC32_i386_MESON_ARGS = \
+  --cross-file=$(NVENC32_SRC)/build-wine32.txt \
   --libdir=lib/wine/nvidia-libs/nvenc/i386-windows
 
 NVENC_x86_64_MESON_ARGS = \
   --cross-file=$(NVENC_SRC)/build-wine64.txt \
   --libdir=lib/wine/nvidia-libs/nvenc/x86_64-windows
 
+NVENC32_DEPENDS = wine
+NVENC32_HOST_DEPENDS = wine
 NVENC_DEPENDS = wine
 NVENC_HOST_DEPENDS = wine
 
+$(eval $(call rules-source,nvenc32,$(SRCDIR)/nvidia-libs/nvenc32))
 $(eval $(call rules-source,nvenc,$(SRCDIR)/nvidia-libs/nvenc))
-$(eval $(call rules-nvidia-libs,nvenc,i386,windows))
+$(eval $(call rules-nvidia-libs,nvenc32,i386,windows))
 $(eval $(call rules-nvidia-libs,nvenc,x86_64,windows))
 
-$(OBJ)/.nvenc-post-source:
+$(OBJ)/.nvenc32-post-source: $(OBJ)/.wine-wine-requests
+	$(foreach i,$(shell find $(NVENC32_SRC)/include/wine -type f | sort),cp $(WINE_SRC)/include/wine/$(notdir $(i)) $(i) &&) true
+	mkdir -p $(DST_LIBDIR)/wine/nvidia-libs/nvenc
+	rm -rf $(DST_LIBDIR)/wine/nvidia-libs/nvenc/version-i386
+	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvenc32)" > $(DST_LIBDIR)/wine/nvidia-libs/nvenc/version-i386
+	touch $@
+
+$(OBJ)/.nvenc-post-source: $(OBJ)/.wine-wine-requests
+	$(foreach i,$(shell find $(NVENC_SRC)/include/wine -type f | sort),cp $(WINE_SRC)/include/wine/$(notdir $(i)) $(i) &&) true
 	mkdir -p $(DST_LIBDIR)/wine/nvidia-libs/nvenc
 	rm -rf $(DST_LIBDIR)/wine/nvidia-libs/nvenc/version
 	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvenc)" > $(DST_LIBDIR)/wine/nvidia-libs/nvenc/version
 	touch $@
 
-default_pfx: nvenc
+default_pfx: nvenc32 nvenc
 
 ##
 ## nvml_so
