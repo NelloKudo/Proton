@@ -1,6 +1,7 @@
 [submodule "wine"]
 	path = wine
-	url = https://github.com/ValveSoftware/wine.git
+	url = https://github.com/NelloKudo/wine-cachyos
+	branch = cachyos_11.0_beta/main-dev
 [submodule "dxvk"]
 	path = dxvk
 	url = https://github.com/doitsujin/dxvk.git
