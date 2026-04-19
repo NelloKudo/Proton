@@ -1434,9 +1434,11 @@ NVCUDA32_HOST_DEPENDS = wine
 NVCUDA_DEPENDS = wine
 NVCUDA_HOST_DEPENDS = wine
 
+ifneq ($(findstring i386,$(unix_ARCHS)),)
 $(eval $(call rules-source,nvcuda32,$(SRCDIR)/nvidia-libs/nvcuda32))
-$(eval $(call rules-source,nvcuda,$(SRCDIR)/nvidia-libs/nvcuda))
 $(eval $(call rules-nvidia-libs,nvcuda32,i386,windows))
+endif
+$(eval $(call rules-source,nvcuda,$(SRCDIR)/nvidia-libs/nvcuda))
 $(eval $(call rules-nvidia-libs,nvcuda,x86_64,windows))
 
 $(OBJ)/.nvcuda32-post-source: $(OBJ)/.wine-wine-requests
@@ -1453,7 +1455,11 @@ $(OBJ)/.nvcuda-post-source: $(OBJ)/.wine-wine-requests
 	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvcuda)" > $(DST_LIBDIR)/wine/nvidia-libs/nvcuda/version
 	touch $@
 
-default_pfx: nvcuda32 nvcuda
+ifneq ($(findstring i386,$(unix_ARCHS)),)
+default_pfx: nvcuda32
+endif
+
+default_pfx: nvcuda
 
 ##
 ## nvenc32/nvenc
@@ -1472,9 +1478,11 @@ NVENC32_HOST_DEPENDS = wine
 NVENC_DEPENDS = wine
 NVENC_HOST_DEPENDS = wine
 
+ifneq ($(findstring i386,$(unix_ARCHS)),)
 $(eval $(call rules-source,nvenc32,$(SRCDIR)/nvidia-libs/nvenc32))
-$(eval $(call rules-source,nvenc,$(SRCDIR)/nvidia-libs/nvenc))
 $(eval $(call rules-nvidia-libs,nvenc32,i386,windows))
+endif
+$(eval $(call rules-source,nvenc,$(SRCDIR)/nvidia-libs/nvenc))
 $(eval $(call rules-nvidia-libs,nvenc,x86_64,windows))
 
 $(OBJ)/.nvenc32-post-source: $(OBJ)/.wine-wine-requests
@@ -1491,7 +1499,11 @@ $(OBJ)/.nvenc-post-source: $(OBJ)/.wine-wine-requests
 	echo "$(shell git -C $(SRCDIR) submodule status -- nvidia-libs/nvenc)" > $(DST_LIBDIR)/wine/nvidia-libs/nvenc/version
 	touch $@
 
-default_pfx: nvenc32 nvenc
+ifneq ($(findstring i386,$(unix_ARCHS)),)
+default_pfx: nvenc32
+endif
+
+default_pfx: nvenc
 
 ##
 ## nvml_so
