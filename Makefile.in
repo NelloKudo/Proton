@@ -1724,6 +1724,7 @@ $(eval $(call rules-meson,vkd3d-bratan,x86_64,windows))
 $(eval $(call rules-meson,vkd3d-bratan,arm64ec,windows))
 
 $(OBJ)/.vkd3d-bratan-post-source:
+	$(foreach p,$(shell find $(PATCHES_SRC)/vkd3d-bratan/ -name "*.patch" | sort),patch -d $(VKD3D_BRATAN_SRC) -Np1 -i $(p) &&) true
 	sed -re 's#@VCS_TAG@#$(shell git -C $(SRCDIR)/vkd3d-bratan describe --always --exclude=* --abbrev=15 --dirty=0)#' \
 	    $(SRCDIR)/vkd3d-bratan/vkd3d_build.h.in > $(VKD3D_BRATAN_SRC)/vkd3d_build.h.in
 	sed -re 's#@VCS_TAG@#$(shell git -C $(SRCDIR)/vkd3d-bratan describe --always --tags --dirty=+)#' \
