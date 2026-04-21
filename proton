@@ -1364,11 +1364,6 @@ def default_compat_config():
     ret = set()
     if "SteamAppId" in os.environ:
         appid = os.environ["SteamAppId"]
-        if appid not in [
-                "3280350", #Death Stranding 2
-                "990080", #Hogwarts Legacy
-                ]:
-            ret.add("ntsync")
         if appid in [
                 #affected by CW bug 19741
                 "1017900", #Age of Empires: Definitive Edition
@@ -1858,7 +1853,6 @@ class Session:
         self.check_environment("PROTON_VKD3D_HEAP", "vkd3dheap")
         self.check_environment("PROTON_NO_ESYNC", "noesync")
         self.check_environment("PROTON_NO_FSYNC", "nofsync")
-        self.check_environment("PROTON_USE_NTSYNC", "ntsync")
         self.check_environment("PROTON_FORCE_LARGE_ADDRESS_AWARE", "forcelgadd")
         self.check_environment("PROTON_OLD_GL_STRING", "oldglstr")
         self.check_environment("PROTON_HIDE_NVIDIA_GPU", "hidenvgpu")
@@ -1939,11 +1933,6 @@ class Session:
             self.env["WINEFSYNC"] = "0"
         else:
             self.env["WINEFSYNC"] = "1"
-
-        if "ntsync" in self.compat_config:
-            self.env.pop("WINE_DISABLE_FAST_SYNC", "")
-        else:
-            self.env["WINE_DISABLE_FAST_SYNC"] = "1"
 
         if "oldglstr" in self.compat_config:
             #mesa override
