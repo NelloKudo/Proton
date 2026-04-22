@@ -33,3 +33,5 @@ log = Log()
 
 if __name__ == "__main__":
     pass
+
+__all__ = []
