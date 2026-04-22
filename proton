@@ -1875,8 +1875,8 @@ class Session:
         self.check_environment("PROTON_HIDE_APU", "hideapu")
         self.check_environment("PROTON_ENABLE_MEDIACONV", "mediaconv")
         self.check_environment("PROTON_NO_WM_DECORATION", "nowmdecoration")
-        self.check_environment("PROTON_ENABLE_WAYLAND", "wayland")
-        self.check_environment("PROTON_USE_WAYLAND", "wayland")
+        self.check_environment("PROTON_ENABLE_WAITLAND", "waitland")
+        self.check_environment("PROTON_USE_WAITLAND", "waitland")
         self.check_environment("PROTON_ENABLE_HDR", "hdr")
         self.check_environment("PROTON_PREFER_SDL", "sdlinput")
         self.check_environment("PROTON_USE_SDL", "sdlinput")
@@ -2080,7 +2080,7 @@ class Session:
         if "noopwr" in self.compat_config:
             self.env["WINE_DISABLE_VULKAN_OPWR"] = "1"
 
-        if "noopwrx11" in self.compat_config and "wayland" not in self.compat_config:
+        if "noopwrx11" in self.compat_config and "waitland" not in self.compat_config:
             self.env["WINE_DISABLE_VULKAN_OPWR"] = "1"
 
         if "PROTON_USE_XALIA" not in self.env:
@@ -2118,7 +2118,7 @@ class Session:
         if "__GLVND_DISALLOW_PATCHING" not in self.env:
             self.env["__GLVND_DISALLOW_PATCHING"] = "1"
 
-        if "wayland" in self.compat_config and "WAYLAND_DISPLAY" in self.env:
+        if "waitland" in self.compat_config and "WAYLAND_DISPLAY" in self.env:
             self.dlloverrides["winex11.drv"] = "d"
             self.dlloverrides["winewayland.drv"] = "b"
             self.env["WINE_USE_EGL"] = "1"
