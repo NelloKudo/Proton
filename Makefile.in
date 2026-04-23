@@ -1386,8 +1386,8 @@ $(OBJ)/.dxvk-nvapi-vkreflex-layer-post-source: patches-source
 	    $(SRCDIR)/dxvk-nvapi/version.h.in > $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/version.h.in
 	cp -a $(SRCDIR)/dxvk-nvapi/config.h.in $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/config.h.in
 	mkdir -p $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/external/
-	cp -a $(SRCDIR)/dxvk-nvapi/external/Vulkan-Headers $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/external/Vulkan-Headers
-	cp -a $(SRCDIR)/dxvk-nvapi/external/vkroots $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/external/vkroots
+	rsync -arx $(SRCDIR)/dxvk-nvapi/external/Vulkan-Headers/ $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/external/Vulkan-Headers/
+	rsync -arx $(SRCDIR)/dxvk-nvapi/external/vkroots/ $(DXVK_NVAPI_VKREFLEX_LAYER_SRC)/external/vkroots/
 	touch $@
 
 $(OBJ)/.dxvk-nvapi-vkreflex-layer-x86_64-post-build:
