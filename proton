@@ -2046,9 +2046,6 @@ class Session:
         if "vkd3dbindlesstb" in self.compat_config:
             append_to_env_str(self.env, "VKD3D_CONFIG", "force_bindless_texel_buffer", ",")
 
-        if os.environ.get("SteamGameId", 0) == "3321460":
-            append_to_env_str(self.env, "VKD3D_CONFIG", "enable_experimental_features", ",")
-
         if "northstar" in self.compat_config:
             append_to_env_str(self.env, "WINEDLLOVERRIDES", "wsock32=n,b", ";")
 
