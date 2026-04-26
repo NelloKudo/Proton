@@ -1159,8 +1159,6 @@ class CompatData:
                 else:
                     wined3dfiles.append("d3d8")
 
-                icufiles = ["icuin68", "icuuc68", "icudt68"]
-
                 for f in wined3dfiles:
                     try_copy(g_proton.default_pfx_dir + "drive_c/windows/system32/" + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
@@ -1215,17 +1213,6 @@ class CompatData:
                 else:
                     try_copy(g_proton.default_pfx_dir + "drive_c/windows/syswow64/ddraw.dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-
-                for f in icufiles:
-                    dst = "drive_c/windows/system32/" + f + ".dll"
-                    if not file_exists(self.prefix_dir + dst, follow_symlinks=False):
-                        tracked_files.write(dst + '\n')
-                    self.create_symlink(self.prefix_dir + dst, g_proton.arch_pe_dir("wine/icu", False) + f + ".dll")
-
-                    dst = "drive_c/windows/syswow64/" + f + ".dll"
-                    if not file_exists(self.prefix_dir + dst, follow_symlinks=False):
-                        tracked_files.write(dst + '\n')
-                    self.create_symlink(self.prefix_dir + dst, g_proton.arch_pe_dir("wine/icu", True) + f + ".dll")
 
                 allow_nvidia_libs = os.path.isdir(g_proton.lib_dir + "wine/nvidia-libs")
                 disable_nvlibs32 = "nvidialibsno32" in g_session.compat_config or "wow64" in g_session.compat_config
