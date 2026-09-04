@@ -939,9 +939,14 @@ $(eval $(call rules-autoconf,wine,i386,unix))
 $(eval $(call rules-autoconf,wine,x86_64,unix))
 $(eval $(call rules-autoconf,wine,aarch64,unix))
 
+WINE_PATCHES := $(sort $(wildcard $(SRC)/patches/wine/*.patch))
+
 $(WINE_SRC)/configure: $(WINE_ORIGIN)/aclocal.m4
 
-$(OBJ)/.wine-post-source:
+$(OBJ)/.wine-source: $(WINE_PATCHES)
+
+$(OBJ)/.wine-post-source: $(WINE_PATCHES)
+	$(foreach p,$(WINE_PATCHES),patch -d $(WINE_SRC) -Np1 -i $(p) &&) true
 	cd $(WINE_SRC) && XDG_CACHE_HOME=$(OBJ) dlls/winevulkan/make_vulkan -x vk.xml -X video.xml
 	-cd $(WINE_SRC) && tools/make_specfiles
 	touch $@
