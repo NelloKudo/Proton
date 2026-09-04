@@ -1169,10 +1169,20 @@ class CompatData:
                     try_copy(g_proton.default_pfx_dir + "drive_c/windows/syswow64/" + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
+                # present timing DXVK is only usable on the wayland driver
+                use_dxvk_presenttiming = "presenttiming" in g_session.compat_config and \
+                        "wayland" in g_session.compat_config and \
+                        "WAYLAND_DISPLAY" in g_session.env and \
+                        os.path.isdir(g_proton.lib_dir + "wine/dxvk-presenttiming")
+                if use_dxvk_presenttiming:
+                    dxvk_path = "dxvk-presenttiming"
+                else:
+                    dxvk_path = "dxvk"
+
                 for f in dxvkfiles:
-                    try_copy(g_proton.arch_pe_dir("wine/dxvk", False) + f + ".dll", "drive_c/windows/system32",
+                    try_copy(g_proton.arch_pe_dir("wine/" + dxvk_path, False) + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                    try_copy(g_proton.arch_pe_dir("wine/dxvk", True) + f + ".dll", "drive_c/windows/syswow64",
+                    try_copy(g_proton.arch_pe_dir("wine/" + dxvk_path, True) + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides[f] = "n"
 
@@ -1749,6 +1759,7 @@ class Session:
         # Proton-EM custom options
         self.check_environment("PROTON_ENABLE_WAYLAND", "wayland")
         self.check_environment("PROTON_USE_WAYLAND", "wayland")
+        self.check_environment("PROTON_PRESENT_TIMING", "presenttiming")
         self.check_environment("PROTON_PREFER_SDL", "sdlinput")
         self.check_environment("PROTON_USE_SDL", "sdlinput")
         self.check_environment("PROTON_NATIVE_AGS", "nativeags")
