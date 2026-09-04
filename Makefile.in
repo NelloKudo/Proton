@@ -1017,6 +1017,43 @@ $(OBJ)/.dxvk-post-source:
 
 
 ##
+## dxvk-presenttiming
+##
+## DXVK with present timing support
+## https://github.com/doitsujin/dxvk/tree/present-timing-v2
+##
+
+# wine builds DLLs with the same names, we need to differentiate the timestamps
+DXVK_PRESENTTIMING_i386_SOURCE_DATE_EPOCH := $(shell expr $(i386_SOURCE_DATE_EPOCH) - 2)
+DXVK_PRESENTTIMING_x86_64_SOURCE_DATE_EPOCH := $(shell expr $(x86_64_SOURCE_DATE_EPOCH) - 2)
+DXVK_PRESENTTIMING_arm64ec_SOURCE_DATE_EPOCH := $(shell expr $(arm64ec_SOURCE_DATE_EPOCH) - 2)
+
+DXVK_PRESENTTIMING_SOURCE_ARGS = \
+  --exclude version.h.in \
+
+DXVK_PRESENTTIMING_arm64ec_CFLAGS = -marm64x
+DXVK_PRESENTTIMING_arm64ec_LDFLAGS = -marm64x
+
+DXVK_PRESENTTIMING_i386_MESON_ARGS = --bindir=$(DXVK_PRESENTTIMING_i386_DST)/lib/wine/dxvk-presenttiming/i386-windows
+DXVK_PRESENTTIMING_x86_64_MESON_ARGS = --bindir=$(DXVK_PRESENTTIMING_x86_64_DST)/lib/wine/dxvk-presenttiming/x86_64-windows
+DXVK_PRESENTTIMING_arm64ec_MESON_ARGS = --bindir=$(DXVK_PRESENTTIMING_arm64ec_DST)/lib/wine/dxvk-presenttiming/aarch64-windows
+DXVK_PRESENTTIMING_HOST_DEPENDS = glslang
+
+$(eval $(call rules-source,dxvk-presenttiming,$(SRCDIR)/dxvk-presenttiming))
+$(eval $(call rules-meson,dxvk-presenttiming,i386,windows))
+$(eval $(call rules-meson,dxvk-presenttiming,x86_64,windows))
+$(eval $(call rules-meson,dxvk-presenttiming,arm64ec,windows))
+
+$(OBJ)/.dxvk-presenttiming-post-source:
+	sed -re 's#@VCS_TAG@#$(shell git -C $(SRCDIR)/dxvk-presenttiming describe --always --abbrev=15 --dirty=0 || echo deadbeef)#' \
+	    $(SRCDIR)/dxvk-presenttiming/version.h.in > $(DXVK_PRESENTTIMING_SRC)/version.h.in
+	mkdir -p $(DST_LIBDIR)/wine/dxvk-presenttiming
+	rm -rf $(DST_LIBDIR)/wine/dxvk-presenttiming/version
+	echo "$(shell git -C $(SRCDIR) submodule status -- dxvk-presenttiming || echo no-git-repo-info)" > $(DST_LIBDIR)/wine/dxvk-presenttiming/version
+	touch $@
+
+
+##
 ## dxvk-nvapi
 ##
 
@@ -1697,7 +1734,7 @@ endif
 ## default_pfx
 ##
 
-default_pfx: wine gst_good gst_bad gst_ugly gst_libav gst_plugins_rs lsteamclient steamexe vrclient wineopenxr $(WINEOPENXR64_JSON) dxvk dxvk-nvapi vkd3d-proton protonfixes
+default_pfx: wine gst_good gst_bad gst_ugly gst_libav gst_plugins_rs lsteamclient steamexe vrclient wineopenxr $(WINEOPENXR64_JSON) dxvk dxvk-presenttiming dxvk-nvapi vkd3d-proton protonfixes
 	find $(DST_LIBDIR)/wine -type f -execdir chmod a-w '{}' '+'
 	rm -rf $(abspath $(DIST_PREFIX))
 	rm -rf $(abspath $(DIST_PREFIX_ARM64))
