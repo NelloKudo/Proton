@@ -90,3 +90,7 @@
 [submodule "libpcap"]
 	path = libpcap
 	url = https://github.com/the-tcpdump-group/libpcap.git
+[submodule "dxvk-presenttiming"]
+	path = dxvk-presenttiming
+	url = https://github.com/doitsujin/dxvk.git
+	branch = present-timing-v2
